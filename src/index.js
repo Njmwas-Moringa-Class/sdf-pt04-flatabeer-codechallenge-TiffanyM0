@@ -10,6 +10,7 @@ async function getBeers() {
   const beers = await beersResponse.json();
   console.log(beersResponse);
   console.log(beers);
+
 }
 
 function beerListInNav(beer) {
@@ -23,23 +24,10 @@ function beerListInNav(beer) {
 // */
 document.addEventListener("DOMContentLoaded", () => {
   const headingList = document.getElementById("beer-list");
-  getBeers().then((beers)=>{
-        beers.forEach(beer => console.log(beer.name));
-  //     beers.map((beer)=> {
-  //         const insertNames = beerListInNav(beer);
-  //         headingList.appendChild(insertNames);
-      });
-  // });
+  getBeers()
 });
 
-// insertNames.innerHTML = `
-// <h1>FlataBeer</h1>
-// <nav>
-//   <ul id="beer-list">
-//     <li></li>
-//   </ul>
-// </nav>
-// `
+
 
 // async function getBeers() {
 //   return fetch("http://localhost:3000/beers").then(() => {
@@ -57,16 +45,24 @@ document.addEventListener("DOMContentLoaded", () => {
 //     const input = document.querySelector("#review");
 // })
 
-// fetch("http://localhost:3000/beers")
-// .then((Response) => Response.json())
-// .then (data => {
-//     let beerName = document.querySelector("div.beer-details h2");
-//     let beerImage = document.querySelector("div.beer-details img.src");
-//     let beerDescription = document.querySelector("#beer-description");
-//     beerName.innerText = beers.name;
-//     // beerImage.innerText = beers.image_url;
-//     beerDescription.innerText = beers.description;
-// })
+fetch("http://localhost:3000/beers")
+.then((Response) => Response.json())
+.then (data => {
+    let div1 = document.createElement("div");
+    div1.className = "beer1"
+    div1.innerHTML = `
+        <h2>${data.name}</h2>
+        <img src= "${data.image_url}"
+        <p>${data.description}</p>
+    `
+    document.querySelector("#beer-list").appendChild(div1);
+    
+    // let beerImage = document.querySelector("div.beer-details img.src");
+    // let beerDescription = document.querySelector("#beer-description");
+    // beerName.innerText = beers.name;
+    // beerImage.innerText = beers.image_url;
+    // beerDescription.innerText = beers.description;
+})
 // console.log(fetch())
 
 // fetch("http://localhost:3000/beers/1")
