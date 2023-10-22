@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
       reviewForm.addEventListener("submit", (event) => {
         event.preventDefault();
         const review = reviewForm.review.value;
-        updateReviews();
+        // updateReviews();
         // console.log(review);
 
         const previousReviews =
