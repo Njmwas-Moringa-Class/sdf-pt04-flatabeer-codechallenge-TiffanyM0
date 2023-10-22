@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((response) => response.json())
     .then((data) => {
       // const beerFromJs = data;
-      // const navBeer = document.getElementsByTagName("nav");
       data.forEach((element) => {
         // console.log(element.name);
         let beerList = document.querySelector("#beer-list");
@@ -63,18 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
               <label for="review">Your Review:</label>
               <textarea id="review"></textarea>
               <button type="submit">Add review</button>
-            </form>
-              `;
+            </form>`;
           document.querySelector(".beer-details").appendChild(div);
         });
-        // console.log(beerList);
-        // beerList.appendChild('li');
-        // beerList.firstChild.innerText = (`${element.name}`)
-        // if (element.id >= 1) {
-        //   newBeerName.addEventListener("click", () => {
-        //     console.log("changed");
-        //   });
-        // }
       });
       const reviewForm = document.getElementById("review-form");
       reviewForm.addEventListener("submit", (event) => {
@@ -82,14 +72,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const review = reviewForm.review.value;
         // updateReviews();
         // console.log(review);
-
         const previousReviews =
           document.getElementById("review-list").innerHTML;
         document.getElementById(
           "review-list"
         ).innerHTML = `${previousReviews} <li>${review}</li>`;
       });
-
 
       // const descriptionForm = document.getElementById("description-form");
       // descriptionForm.addEventListener("submit", (event) => {
