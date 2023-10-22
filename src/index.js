@@ -1,62 +1,80 @@
 // Code here
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("http://localhost:3000/beers/1")
+    .then((response) => response.json())
+    .then((data) => {
+      let beer1 = document.querySelector("#beer-name");
+      beer1.innerText = `${data.name}`;
 
-fetch("http://localhost:3000/beers/1")
-  .then((response) => response.json())
-  .then((data) => {
-    let beer1 = document.querySelector("#beer-name");
-    beer1.innerText = `${data.name}`;
+      let beer1Img = document.querySelector("img#beer-image");
+      // console.log(beer1Img);
+      beer1Img.setAttribute("alt", `${data.name}`);
 
-    let beer1Img = document.querySelector("img#beer-image");
-    console.log(beer1Img);
-    beer1Img.setAttribute("alt", `${data.name}`);
+      let beer1ImgSrc = document.querySelector("img#beer-image");
+      // console.log(beer1ImgSrc);
+      beer1ImgSrc.setAttribute("src", `${data.image_url}`);
 
-    let beer1ImgSrc = document.querySelector("img#beer-image");
-    console.log(beer1ImgSrc);
-    beer1ImgSrc.setAttribute("src",`${data.image_url}`);
+      let beer1Desc = document.querySelector("#beer-description");
+      beer1Desc.innerText = `${data.description}`;
+      // console.log(beer1Desc);
+    });
+  fetch(`http://localhost:3000/beers`)
+    .then((response) => response.json())
+    .then((data) => {
+      const beerFromJs = data;
+      const navBeer = document.getElementsByTagName("nav");
+      beerFromJs.forEach((element) => {
+        console.log(element.name);
+        let beerList = document.querySelector("#beer-list");
+        // console.log(beerList);
+        let newBeerName = document.createElement("li");
+        newBeerName.textContent = element.name;
+        beerList.appendChild(newBeerName);
+        // beerList.appendChild('li');
+        // beerList.firstChild.innerText = (`${element.name}`)
 
-    let beer1Desc = document.querySelector("#beer-description");
-    beer1Desc.innerText = `${data.description}`;
-    console.log(beer1Desc);
-
-    let beerList = document.querySelector("#beer-list");
-
-  })
-;
-
+        newBeerName.addEventListener("click", () => {
+          let div = document.createElement("div");
+          div.className = "beer-details";
+          div.innerHTML = `
+          <h2 id="beer-name">${element.name}</h2>
+          <img
+            id="beer-image"
+            alt="${element.name}"
+            src="${element.image_url}"
+          />
+          <p>
+            <em id="beer-description">${element.description}</em>
+          </p>
+  
+          <form id="description-form">
+            <label for="description">Edited Description:</label>
+            <textarea id="description"></textarea>
+            <button type="submit">Update Beer</button>
+          </form>
+  
+          <h3>Customer Reviews</h3>
+          <ul id="review-list">
+            <li>Replace with actual reviews</li>
+            <li>From the server</li>
+          </ul>
+          <form id="review-form">
+            <label for="review">Your Review:</label>
+            <textarea id="review"></textarea>
+            <button type="submit">Add review</button>
+          </form>`;
+          console.log("changed");
+        });
+      });
+      let listed = document.querySelectorAll("ul#beer-list li");
+      console.log(listed);
+      // listed.addEventListener("click", () => {
+      //   console.log("clicked");
+      // });
+    });
+});
 
 // ====== a list of beer names in the nav bar at the left =======//
-
-async function getBeers() {
-  const beersResponse = await fetch("http://localhost:3000/beers");
-  const beers = await beersResponse.json();
-  let beerList = document.querySelector("#beer-list");
-  beerList.appendChild("li").innerText(`${beers.name}`)
-  return beers;
-}
-
-// fetch request for info from bd, record input value as ul
-// const BASE_URL = "http://localhost:3000"
-// console.log('here we are now');
-
-function updateReview(){
-  const newReview =  document.getElementById("review-form");
-  newReview.addEventListener("submit", (event)=>{
-    event.preventDefault();
-    const newReviewBeer = document.getElementById("review"); 
-    console.log(newReviewBeer);
-  })
-}
-
-// function beerListInNav(beer) {
-//   const beerList = document.querySelector("#beer-list");
-//   beerList.appendChild("li");
-//   return `<li>${beer.name}</li>`;
-// }
-// document.addEventListener("DOMContentLoaded", () => {
-//   getBeers();
-//   beerListInNav();
-// });
-
 // /*
 //     to run the code after DOM has loaded, call functions in the below callbackfn
 // */
