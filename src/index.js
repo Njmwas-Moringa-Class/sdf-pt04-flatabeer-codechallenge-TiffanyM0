@@ -17,62 +17,115 @@ document.addEventListener("DOMContentLoaded", () => {
       let beer1Desc = document.querySelector("#beer-description");
       beer1Desc.innerText = `${data.description}`;
       // console.log(beer1Desc);
+
+      let beer1Rev = document.querySelector("#review-list");
+      beer1Rev.innerHTML = `<li>${data.reviews[0]}</li>`;
     });
   fetch(`http://localhost:3000/beers`)
     .then((response) => response.json())
     .then((data) => {
-      const beerFromJs = data;
-      const navBeer = document.getElementsByTagName("nav");
-      beerFromJs.forEach((element) => {
-        console.log(element.name);
+      // const beerFromJs = data;
+      // const navBeer = document.getElementsByTagName("nav");
+      data.forEach((element) => {
+        // console.log(element.name);
         let beerList = document.querySelector("#beer-list");
         // console.log(beerList);
         let newBeerName = document.createElement("li");
         newBeerName.textContent = element.name;
         beerList.appendChild(newBeerName);
+        newBeerName.addEventListener("click", () => {
+          document.querySelector(".beer-details").innerHTML = ``;
+          let div = document.createElement("div");
+          div.className = "beerdetails";
+          div.innerHTML = `
+              <h2 id="beer-name">${element.name}</h2>
+              <img
+                id="beer-image"
+                alt="${element.name}"
+                src="${element.image_url}"
+              />
+              <p>
+              <em id="beer-description">${element.description}</em>
+            </p>
+    
+            <form id="description-form">
+              <label for="description">Edited Description:</label>
+              <textarea id="description"></textarea>
+              <button type="submit">Update Beer</button>
+            </form>
+    
+            <h3>Customer Reviews</h3>
+            <ul id="review-list">
+              <li>${element.reviews}</li>
+              <li>From the server</li>
+            </ul>
+            <form id="review-form">
+              <label for="review">Your Review:</label>
+              <textarea id="review"></textarea>
+              <button type="submit">Add review</button>
+            </form>
+              `;
+          document.querySelector(".beer-details").appendChild(div);
+        });
+        // console.log(beerList);
         // beerList.appendChild('li');
         // beerList.firstChild.innerText = (`${element.name}`)
-
-        newBeerName.addEventListener("click", () => {
-          let div = document.createElement("div");
-          div.className = "beer-details";
-          div.innerHTML = `
-          <h2 id="beer-name">${element.name}</h2>
-          <img
-            id="beer-image"
-            alt="${element.name}"
-            src="${element.image_url}"
-          />
-          <p>
-            <em id="beer-description">${element.description}</em>
-          </p>
-  
-          <form id="description-form">
-            <label for="description">Edited Description:</label>
-            <textarea id="description"></textarea>
-            <button type="submit">Update Beer</button>
-          </form>
-  
-          <h3>Customer Reviews</h3>
-          <ul id="review-list">
-            <li>Replace with actual reviews</li>
-            <li>From the server</li>
-          </ul>
-          <form id="review-form">
-            <label for="review">Your Review:</label>
-            <textarea id="review"></textarea>
-            <button type="submit">Add review</button>
-          </form>`;
-          console.log("changed");
-        });
+        // if (element.id >= 1) {
+        //   newBeerName.addEventListener("click", () => {
+        //     console.log("changed");
+        //   });
+        // }
       });
-      let listed = document.querySelectorAll("ul#beer-list li");
-      console.log(listed);
-      // listed.addEventListener("click", () => {
-      //   console.log("clicked");
+      const reviewForm = document.getElementById("review-form");
+      reviewForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const review = reviewForm.review.value;
+        updateReviews();
+        // console.log(review);
+
+        const previousReviews =
+          document.getElementById("review-list").innerHTML;
+        document.getElementById(
+          "review-list"
+        ).innerHTML = `${previousReviews} <li>${review}</li>`;
+      });
+
+
+      // const descriptionForm = document.getElementById("description-form");
+      // descriptionForm.addEventListener("submit", (event) => {
+      //   event.preventDefault();
+      //   const description = descriptionForm.description.value;
+      //   console.log(description);
+
+      //   const previousReviews =
+      //     document.getElementById("review-list").innerHTML;
+      //   document.getElementById(
+      //     "review-list"
+      //   ).innerHTML = `${previousReviews} <li>${review}</li>`;
       // });
+
+      // const button = document.querySelector("#review-form button");
+      // button.addEventListener("click", updater);
+      // document
+      //   .querySelector("#review-form button")
+      //   .addEventListener("click", () => {
+      //     let reviewList = document.querySelector("#review").value;
+      //     document.getElementById(
+      //       "review-list"
+      //     ).innerHTML = `<li>${reviewList}</li>`;
+      //     console.log(reviewList);
+      //   });
     });
 });
+
+// function updateReviews(){
+//   fetch(`http://localhost:3000/beers${data.id}`, {
+//     method: 'PATCH',
+//     headers: {
+//       'Content-Type' : 'application.json'
+//     }
+//   })
+// }
 
 // ====== a list of beer names in the nav bar at the left =======//
 // /*
@@ -117,3 +170,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // })
 
 // console.log(fetch())
+// let listed = document.querySelectorAll("ul#beer-list li");
+// console.log(listed);
+// // listed.addEventListener("click", () => {
+// //   console.log("clicked");
+// // });
